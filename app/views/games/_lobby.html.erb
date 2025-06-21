@@ -1,0 +1,11 @@
+<div class="bg-gray-100 p-6 rounded-lg shadow-md mb-8">
+  <h2 class="text-2xl font-semibold mb-4">Aguardando Jogadores...</h2>
+  <p class="text-lg mb-4">Compartilhe este código com seus amigos: <span class="font-bold text-blue-600 text-2xl"><%= game.game_code %></span></p>
+  <h3 class="text-xl font-medium mb-2">Jogadores Conectados:</h3>
+  <div id="players-list">
+    <%= render game.players %>
+  </div>
+  <% if game.players.any? && current_player&.id == game.players.first&.id %>
+    <%= button_to "Iniciar Jogo", start_game_path(game), method: :post, class: "mt-6 bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+  <% end %>
+</div>

@@ -1,4 +1,6 @@
 class GamesController < ApplicationController
+  before_action :set_game, only: [ :show, :start, :vote ]
+
   def create
     @game = Game.new
     @player = @game.players.new(player_params)
@@ -6,18 +8,21 @@ class GamesController < ApplicationController
     @game.category = Category.order("RANDOM()").first
     @game.word = @game.category.words.order("RANDOM()").first
     if @game.save
-      redirect_to @game, notice: "Game created! Share code: #{@game.game_code}"
+      save_session_player(@player)
+      redirect_to game_path(@game.game_code)
     else
       redirect_to root_path, alert: "Could not create game."
     end
   end
 
+  def show; end
+
   def join
     @game = Game.find_by!(game_code: game_params[:game_code])
     @player = @game.players.new(player_params)
     if @player.save
-      session[:player_id] = @player.id # Store player in session
-      redirect_to @game, notice: "#{@player.name} joined the game!"
+      save_session_player(@player)
+      redirect_to game_path(@game.game_code)
     else
       redirect_to root_path, alert: "Could not join game."
     end
@@ -53,6 +58,13 @@ class GamesController < ApplicationController
 
   private
 
+  def set_game
+    @game = Game.find_by(game_code: params[:game_code])
+    unless @game
+      redirect_to root_path, alert: "Game not found."
+    end
+  end
+
   def game_params
     params.require(:game).permit(:game_code)
   end
@@ -63,5 +75,9 @@ class GamesController < ApplicationController
 
   def generate_game_code
     SecureRandom.alphanumeric(6).upcase
+  end
+
+  def save_session_player(player)
+    session[:player_id] = player.id if player.persisted?
   end
 end

@@ -1,0 +1,34 @@
+<div id="game-in-progress" class="bg-gray-100 p-6 rounded-lg shadow-md mb-8">
+  <h2 class="text-2xl font-semibold mb-4">O Jogo Começou!</h2>
+  <% if current_player.is_spy %>
+    <p class="text-xl text-red-600 font-bold mb-4">Você é O Gaiato!</p>
+    <p class="text-lg mb-4">Sua missão é descobrir qual é a palavra secreta sem ser descoberto.</p>
+    <p class="text-lg">As palavras possíveis são: <%= game.words_pool.join(', ') %></p>
+  <% else %>
+    <p class="text-xl text-green-600 font-bold mb-4">A palavra secreta é: <span class="text-2xl"><%= game.secret_word %></span></p>
+    <p class="text-lg mb-4">Sua missão é descobrir quem é O Gaiato!</p>
+  <% end %>
+  <h3 class="text-xl font-medium mb-2">Jogadores:</h3>
+  <ul class="list-disc list-inside mb-4">
+    <% game.players.each do |player| %>
+      <li><%= player.name %> <% if player.id == current_player.id %> (Você) <% end %></li>
+    <% end %>
+  </ul>
+  <h3 class="text-xl font-medium mb-2">Votar:</h3>
+  <% if !current_player.has_voted %>
+    <%= form_with(url: vote_game_path(game), method: :post, local: true, data: { turbo: false }) do |form| %>
+      <div class="mb-4">
+        <%= form.label :voted_for_player_id, "Vote em quem você acha que é O Gaiato:", class: "block text-gray-700 text-sm font-bold mb-2" %>
+        <%= form.select :voted_for_player_id, options_from_collection_for_select(game.players.excluding(current_player), :id, :name), { include_blank: true }, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+      <%= form.submit "Votar", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+    <% end %>
+  <% else %>
+    <p class="text-lg text-gray-600">Você já votou.</p>
+  <% end %>
+</div>
+<template data-turbo-stream>
+  <%= turbo_stream.replace "game-in-progress" do %>
+    <%= render 'games/in_game', game: game, current_player: current_player %>
+  <% end %>
+</template>

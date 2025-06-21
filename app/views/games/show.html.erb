@@ -1,0 +1,14 @@
+<div class="container mx-auto p-4 text-center">
+  <%= turbo_stream_from @game %>
+  <div id="<%= dom_id(@game) %>">
+    <h1 class="text-3xl font-bold mb-4">Jogo: <%= @game.game_code %></h1>
+    <p class="text-lg mb-6">Status: <%= @game.status.humanize %></p>
+    <% if @game.waiting? %>
+      <%= render 'games/lobby', game: @game, current_player: @current_player %>
+    <% elsif @game.in_progress? %>
+      <%= render 'games/in_game', game: @game, current_player: @current_player %>
+    <% elsif @game.finished? %>
+      <%= render 'games/results', game: @game, current_player: @current_player %>
+    <% end %>
+  </div>
+</div>
