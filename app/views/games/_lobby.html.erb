@@ -7,7 +7,13 @@
       <span></span>
     </span>
   </h2>
-  <p class="text-lg mb-4">Compartilhe este código com seus amigos: <span class="font-bold text-blue-600 text-2xl"><%= game.game_code %></span></p>
+  <p class="text-lg mb-4 flex items-center justify-center gap-2">
+    Compartilhe este código com seus amigos:
+    <%= render 'shared/copy_button', 
+        text: game.game_code,
+        button_class: "font-bold text-blue-600 text-2xl cursor-pointer flex items-center gap-1 hover:opacity-80 transition-opacity",
+        feedback_message: "Código copiado!" %>
+  </p>
   <h3 class="text-xl font-medium mb-2">Jogadores Conectados:</h3>
   <div id="players-list">
     <%= render game.players %>
@@ -15,6 +21,6 @@
   <%= game.owner.id %>
   <%= current_player&.id %>
   <% if game.players.any? && current_player&.id == game.owner&.id %>
-    <%= button_to "Iniciar Jogo", start_game_path(game), method: :post, class: "mt-6 bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+    <%= button_to "Iniciar Jogo", start_game_path(game.game_code), method: :post, class: "mt-6 bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
   <% end %>
 </div>

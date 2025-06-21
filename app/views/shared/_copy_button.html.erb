@@ -1,0 +1,42 @@
+<%# 
+  Partial para botão de cópia reutilizável
+  
+  Parâmetros:
+  - text: Texto a ser copiado (obrigatório)
+  - display_text: Texto a ser exibido (opcional, usa 'text' se não fornecido)
+  - button_class: Classes CSS para o botão (opcional)
+  - icon: Mostrar ícone (opcional, padrão: true)
+  - feedback_message: Mensagem de sucesso (opcional, padrão: "Copiado!")
+  - feedback_duration: Duração do feedback em ms (opcional, padrão: 1500)
+%>
+
+<%
+  text = local_assigns[:text]
+  display_text = local_assigns[:display_text] || text
+  button_class = local_assigns[:button_class] || "cursor-pointer flex items-center gap-1 hover:opacity-80 transition-opacity"
+  show_icon = local_assigns.fetch(:icon, true)
+  feedback_message = local_assigns[:feedback_message] || "Copiado!"
+  feedback_duration = local_assigns[:feedback_duration] || 1500
+%>
+
+<span class="<%= button_class %>" 
+      title="Clique para copiar"
+      data-controller="copy"
+      data-copy-text-value="<%= text %>"
+      data-copy-success-message-value="<%= feedback_message %>"
+      data-copy-feedback-duration-value="<%= feedback_duration %>"
+      data-action="click->copy#copy">
+  
+  <%= display_text %>
+  
+  <% if show_icon %>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" class="ml-1">
+      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <path d="M16 3H4v13"/>
+        <path d="M8 7h12v12a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z"/>
+      </g>
+    </svg>
+  <% end %>
+  
+  <span data-copy-target="feedback" class="ml-2 text-sm hidden"></span>
+</span>
