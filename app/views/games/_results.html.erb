@@ -1,0 +1,54 @@
+<div id="game-results" class="bg-gray-100 p-6 rounded-lg shadow-md mb-8">
+  <h2 class="text-3xl font-bold mb-6 text-center">Resultado do Jogo!</h2>
+  
+  <% if game.result == "players_win" %>
+    <div class="text-center mb-6">
+      <h3 class="text-2xl font-bold text-green-600 mb-2">🎉 Jogadores Venceram! 🎉</h3>
+      <p class="text-lg">O Gaiato foi descoberto!</p>
+    </div>
+  <% elsif game.result == "spy_wins" %>
+    <div class="text-center mb-6">
+      <h3 class="text-2xl font-bold text-red-600 mb-2">🕵️ O Gaiato Venceu! 🕵️</h3>
+      <p class="text-lg">O Gaiato conseguiu se esconder!</p>
+    </div>
+  <% end %>
+
+  <div class="mb-6">
+    <h4 class="text-xl font-semibold mb-3">Informações do Jogo:</h4>
+    <p class="text-lg mb-2"><strong>Categoria:</strong> <%= game.category.name %></p>
+    <p class="text-lg mb-2"><strong>Palavra secreta:</strong> <%= game.word.text %></p>
+    <p class="text-lg mb-4"><strong>O Gaiato era:</strong> <%= game.spy_player.name %></p>
+  </div>
+
+  <div class="mb-6">
+    <h4 class="text-xl font-semibold mb-3">Jogadores:</h4>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <% game.players.each do |player| %>
+        <div class="bg-white p-3 rounded border <%= 'border-red-500 bg-red-50' if player.is_spy %>">
+          <div class="flex justify-between items-center">
+            <span class="font-medium">
+              <%= player.name %>
+              <% if player.is_spy %>
+                <span class="text-red-600 font-bold">(Gaiato)</span>
+              <% end %>
+              <% if player.id == current_player&.id %>
+                <span class="text-blue-600">(Você)</span>
+              <% end %>
+            </span>
+            <% if player.voted_for_player %>
+              <span class="text-sm text-gray-600">
+                Votou em: <%= player.voted_for_player.name %>
+              </span>
+            <% else %>
+              <span class="text-sm text-gray-400">Não votou</span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <%= link_to "Jogar Novamente", root_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg" %>
+  </div>
+</div>

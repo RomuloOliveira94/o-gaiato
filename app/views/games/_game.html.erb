@@ -1,0 +1,10 @@
+<div id="<%= dom_id(game) %>">
+  <h1 class="text-4xl font-bold mb-8">O Gaiato!</h1>
+  <% if game.waiting? %>
+    <%= render 'games/lobby', game: game, current_player: current_player %>
+  <% elsif game.in_progress? %>
+    <%= render 'games/in_game', game: game, current_player: current_player %>
+  <% elsif game.finished? %>
+    <%= render 'games/results', game: game, current_player: current_player %>
+  <% end %>
+</div>

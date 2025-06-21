@@ -1,4 +1,4 @@
-<div id="game-results" class="bg-gray-100 p-6 rounded-lg shadow-md mb-8">
+<div class="bg-gray-100 p-6 rounded-lg shadow-md mb-8">
   <h2 class="text-2xl font-semibold mb-4">Fim de Jogo!</h2>
   <p class="text-lg mb-4">A palavra secreta era: <span class="font-bold text-xl"><%= game.secret_word %></span></p>
   <p class="text-lg mb-4">O Gaiato era: <span class="font-bold text-xl text-red-600"><%= game.players.find_by(is_spy: true).name %></span></p>

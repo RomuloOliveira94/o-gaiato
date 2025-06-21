@@ -14,7 +14,9 @@ class GamesController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    reload_current_player  # Garante que o current_player esteja atualizado
+  end
 
   def join
     @game = Game.find_by(game_code: game_params[:game_code])
@@ -32,10 +34,14 @@ class GamesController < ApplicationController
   end
 
   def start
-    puts "Starting game with code: #{@game.game_code}"
-    if @game.players.count >= 3
+    if @game.players.count >= 2
       @game.assign_roles_and_words
       if @game.save
+        reload_current_player  # Recarrega o current_player para refletir mudanças
+
+        # Força um broadcast manual com o current_player atualizado
+        @game.broadcast_replace_to @game, target: @game, locals: { game: @game, current_player: current_player }
+
         redirect_to game_path(@game.game_code), notice: "Jogo iniciado com sucesso!"
       else
         redirect_to game_path(@game.game_code), alert: "Não foi possível iniciar o jogo."
@@ -46,15 +52,15 @@ class GamesController < ApplicationController
   end
 
   def vote
-    @player = Player.find(session[:player_id])
+    reload_current_player  # Garante que o current_player esteja atualizado
+    @player = current_player
     if @player && !@player.has_voted && @game.status == "in_progress"
       @player.update(voted_for_player_id: params[:voted_for_player_id], has_voted: true)
-      # Check if all players have voted and resolve game
-      @game.check_game_end_conditions # Method in Game model
-      # Use Turbo Streams to update UI for all players
-      redirect_to @game, notice: "Seu voto foi computado!"
+      @game.check_game_end_conditions
+      reload_current_player  # Recarrega após atualizar
+      redirect_to game_path(@game.game_code), notice: "Seu voto foi computado!"
     else
-      redirect_to @game, alert: "Não foi possível votar."
+      redirect_to game_path(@game.game_code), alert: "Não foi possível votar."
     end
   end
 
