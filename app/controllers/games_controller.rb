@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [ :show, :start, :vote ]
+  before_action :set_game, only: [ :show, :start, :vote, :destroy, :leave ]
 
   def create
     @game = Game.new
@@ -10,7 +10,6 @@ class GamesController < ApplicationController
       associate_game_owner(@game, @player)
       redirect_to game_path(@game.game_code)
     else
-      Rails.logger.error(@game.errors.full_messages.join(", "))
       redirect_to root_path, alert: "Não foi possível criar o jogo."
     end
   end
@@ -56,6 +55,48 @@ class GamesController < ApplicationController
       redirect_to @game, notice: "Seu voto foi computado!"
     else
       redirect_to @game, alert: "Não foi possível votar."
+    end
+  end
+
+  def destroy
+    if current_player&.id == @game.owner&.id
+      begin
+        ActiveRecord::Base.transaction do
+          @game.update!(owner_id: nil, spy_player_id: nil)
+
+          @game.destroy!
+        end
+
+        session[:player_id] = nil
+        redirect_to root_path, notice: "Jogo cancelado com sucesso."
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => e
+        Rails.logger.error "Erro ao deletar jogo: #{e.message}"
+        redirect_to game_path(@game.game_code), alert: "Erro ao deletar o jogo."
+      end
+    else
+      redirect_to game_path(@game.game_code), alert: "Apenas o criador do jogo pode cancelá-lo."
+    end
+  end
+
+  def leave
+    if current_player && @game.players.include?(current_player)
+
+      if current_player.id == @game.owner&.id
+        redirect_to game_path(@game.game_code), alert: "O criador do jogo não pode sair. Use 'Cancelar Jogo' para deletar o jogo."
+        return
+      end
+
+      if @game.in_progress? || @game.finished?
+        redirect_to game_path(@game.game_code), alert: "Não é possível sair de um jogo em andamento."
+        return
+      end
+
+      current_player.destroy
+      session[:player_id] = nil
+
+      redirect_to root_path, notice: "Você saiu."
+    else
+      redirect_to root_path, alert: "Você não está neste jogo."
     end
   end
 
