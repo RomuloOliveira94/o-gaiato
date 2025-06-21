@@ -33,12 +33,12 @@ class GamesController < ApplicationController
     if @game.players.count >= 3
       @game.assign_roles_and_words
       if @game.save
-        redirect_to @game, notice: "Game started!"
+        redirect_to game_path(@game.game_code), notice: "Game started!"
       else
-        redirect_to @game, alert: "Could not start game."
+        redirect_to game_path(@game.game_code), alert: "Could not start game."
       end
     else
-      redirect_to @game, alert: "Not enough players to start."
+      redirect_to game_path(@game.game_code), alert: "Not enough players to start."
     end
   end
 
