@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_21_132447) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_21_142046) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -26,10 +26,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_21_132447) do
     t.datetime "end_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "category_id", null: false
+    t.integer "category_id"
+    t.integer "word_id"
     t.index ["category_id"], name: "index_games_on_category_id"
     t.index ["game_code"], name: "index_games_on_game_code", unique: true
     t.index ["spy_player_id"], name: "index_games_on_spy_player_id"
+    t.index ["word_id"], name: "index_games_on_word_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -54,6 +56,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_21_132447) do
 
   add_foreign_key "games", "categories"
   add_foreign_key "games", "players", column: "spy_player_id"
+  add_foreign_key "games", "words"
   add_foreign_key "players", "games"
   add_foreign_key "players", "players", column: "voted_for_player_id"
   add_foreign_key "words", "categories"
