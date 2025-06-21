@@ -5,8 +5,7 @@ class GamesController < ApplicationController
     @game = Game.new
     @player = @game.players.new(player_params)
     @game.game_code = generate_game_code
-    @game.category = Category.order("RANDOM()").first
-    @game.word = @game.category.words.order("RANDOM()").first
+    @game.game_owner = @player
     if @game.save
       save_session_player(@player)
       redirect_to game_path(@game.game_code)
