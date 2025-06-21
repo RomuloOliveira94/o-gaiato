@@ -2,7 +2,7 @@ class Game < ApplicationRecord
   has_many :players, dependent: :destroy
   belongs_to :category, optional: true
   belongs_to :word, optional: true
-  belongs_to :game_owner, class_name: "Player"
+  belongs_to :owner, class_name: "Player", optional: true
   belongs_to :spy_player, class_name: "Player", optional: true
 
   enum :status, { waiting: 0, in_progress: 1, finished: 2 }

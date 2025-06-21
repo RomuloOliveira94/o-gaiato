@@ -5,11 +5,12 @@ class GamesController < ApplicationController
     @game = Game.new
     @player = @game.players.new(player_params)
     @game.game_code = generate_game_code
-    @game.game_owner = @player
     if @game.save
       save_session_player(@player)
+      associate_game_owner(@game, @player)
       redirect_to game_path(@game.game_code)
     else
+      Rails.logger.error(@game.errors.full_messages.join(", "))
       redirect_to root_path, alert: "Could not create game."
     end
   end
@@ -78,5 +79,10 @@ class GamesController < ApplicationController
 
   def save_session_player(player)
     session[:player_id] = player.id if player.persisted?
+  end
+
+  def associate_game_owner(game, player)
+    game.owner = player
+    game.save!
   end
 end

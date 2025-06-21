@@ -28,11 +28,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_21_191750) do
     t.datetime "updated_at", null: false
     t.integer "category_id"
     t.integer "word_id"
-    t.integer "game_owner_id", null: false
-    t.integer "result"
+    t.integer "owner_id"
+    t.integer "result", default: 0
     t.index ["category_id"], name: "index_games_on_category_id"
     t.index ["game_code"], name: "index_games_on_game_code", unique: true
-    t.index ["game_owner_id"], name: "index_games_on_game_owner_id"
+    t.index ["owner_id"], name: "index_games_on_owner_id"
     t.index ["spy_player_id"], name: "index_games_on_spy_player_id"
     t.index ["word_id"], name: "index_games_on_word_id"
   end
@@ -58,7 +58,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_21_191750) do
   end
 
   add_foreign_key "games", "categories"
-  add_foreign_key "games", "players", column: "game_owner_id"
+  add_foreign_key "games", "players", column: "owner_id"
   add_foreign_key "games", "players", column: "spy_player_id"
   add_foreign_key "games", "words"
   add_foreign_key "players", "games"

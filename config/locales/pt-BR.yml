@@ -1,0 +1,16 @@
+pt-BR:
+  activerecord:
+    attributes:
+      game:
+        status: "Status"
+        result: "Resultado"
+    values:
+      game:
+        status:
+          waiting: "Aguardando Jogadores"
+          in_progress: "Em andamento"
+          finished: "Finalizado"
+        result:
+          no_result: "Sem resultado"
+          players_win: "Jogadores vencem"
+          spy_wins: "Espião vence"

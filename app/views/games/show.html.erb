@@ -2,13 +2,13 @@
   <%= turbo_stream_from @game %>
   <div id="<%= dom_id(@game) %>">
     <h1 class="text-3xl font-bold mb-4">Jogo: <%= @game.game_code %></h1>
-    <p class="text-lg mb-6">Status: <%= @game.status.humanize %></p>
+    <p class="text-lg mb-6">Status: <%= t("activerecord.values.game.status.#{@game.status}") %></p>
     <% if @game.waiting? %>
-      <%= render 'games/lobby', game: @game, current_player: @current_player %>
+      <%= render 'games/lobby', game: @game %>
     <% elsif @game.in_progress? %>
-      <%= render 'games/in_game', game: @game, current_player: @current_player %>
+      <%= render 'games/in_game', game: @game %>
     <% elsif @game.finished? %>
-      <%= render 'games/results', game: @game, current_player: @current_player %>
+      <%= render 'games/results', game: @game %>
     <% end %>
   </div>
 </div>
