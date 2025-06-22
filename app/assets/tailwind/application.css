@@ -27,7 +27,7 @@
 
 /* Botão Secundário */
 .btn-secondary {
-  @apply bg-secondary hover:bg-secondary text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  @apply bg-secondary hover:bg-secondary text-white py-2 px-4 rounded-lg transition-colors duration-200;
 }
 
 .btn-secondary:hover {
@@ -45,22 +45,22 @@
 
 /* Botão Outline */
 .btn-outline {
-  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
+  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white py-2 px-4 rounded-lg transition-all duration-200;
 }
 
 /* Botão Danger */
 .btn-danger {
-  @apply bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  @apply bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition-colors duration-200;
 }
 
 /* Botão Disabled */
 .btn-disabled {
-  @apply bg-gray-300 text-gray-500 font-medium py-2 px-4 rounded-lg cursor-not-allowed;
+  @apply bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed;
 }
 
 /* Tamanhos de botões */
 .btn-sm {
-  @apply py-1 px-3 text-sm;
+  @apply py-1 px-4;
 }
 
 .btn-lg {
@@ -78,37 +78,37 @@
 
 /* Badge Principal */
 .badge-primary {
-  @apply bg-primary text-white px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-primary text-white px-4 py-1 rounded-full;
 }
 
 /* Badge Secundário */
 .badge-secondary {
-  @apply bg-secondary text-white px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-secondary text-white px-4 py-1 rounded-full;
 }
 
 /* Badge Accent */
 .badge-accent {
-  @apply bg-accent text-white px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-accent text-white px-4 py-1 rounded-full;
 }
 
 /* Badge Success */
 .badge-success {
-  @apply bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-green-500 text-white px-4 py-1 rounded-full;
 }
 
 /* Badge Warning */
 .badge-warning {
-  @apply bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-yellow-500 text-white px-4 py-1 rounded-full;
 }
 
 /* Badge Danger */
 .badge-danger {
-  @apply bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-red-500 text-white px-4 py-1 rounded-full;
 }
 
 /* Badge Light */
 .badge-light {
-  @apply bg-base text-accent border border-accent/20 px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-base text-accent border border-accent/20 px-4 py-1 rounded-full;
 }
 
 /* Badge com ícone */
