@@ -1,49 +1,54 @@
-<div class="bg-gray-100 p-6 rounded-lg shadow-md mb-8">
-  <h1 class="text-3xl">A categoria é: <strong><%= game.category.name %></strong></h1>
-  <% if Current.player&.is_spy %>
-   <p class="text-2xl text-red-600 font-bold my-4">Você é o <span class="text-3xl">Gaiato!</span></p>
-    <p class="text-lg mb-4">Sua missão é descobrir qual é a palavra secreta sem ser descoberto.</p>
-    <p class="text-lg mb-4">Possíveis Palavras:</p>
-    <ul class="list-disc list-inside mb-4">
-      <% game.category.words.each do |word| %>
-        <li><%= word.text %></li>
-      <% end %>
-    </ul>
-    <p class="text-lg">Use sua Gaiatice para tentar dizer uma boa dica e não levantar suspeitas.</p>
-  <% else %>
-    <p class="text-xl text-green-600 font-bold my-4">A palavra secreta é: <span class="text-2xl"><%= game.word.text %></span></p>
-    <p class="text-lg mb-4">Outras palavras da categoria:</p>
-    <ul class="list-disc list-inside mb-4">
-      <% game.category.words.each do |word| %>
-        <li><%= word.text %></li>
-      <% end %>
-    </ul>
-    <p class="text-lg mb-4">Sua missão é descobrir quem é O Gaiato!</p>
-    <p class="text-lg mb-4">Aguarde sua vez e fale sua dica relacionada a palavra mas Atenção! Não revele a palavra secreta ou deixe muito obvio, o gaiato se aproveitará disto!</p>
-    <p class="text-lg">Depois discuta com os outros jogadores para tentar descobrir quem é O Gaiato!</p>
-  <% end %>
-  <h3 class="text-xl font-medium mb-2">Jogadores:</h3>
-  <div id="players-list">
-    <%= render game.players %>
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-4 p-4 text-center">
+  <div class="lg:col-span-1 space-y-4 flex-1">
+    <h1 class="text-2xl font-semibold">Jogadores:</h1>
+    <div id="players-list" class="space-y-4">
+      <%= render game.players %>
+    </div>
   </div>
-  <h3 class="text-xl font-medium mb-2">Votar:</h3>
-  <% if !Current.player&.has_voted %>
-    <%= form_with(url: vote_game_path(game.game_code), method: :post, local: true, data: { turbo: false }, html: { class: "max-w-lg mx-auto" }) do |form| %>
-      <div class="mb-4">
-        <%= form.label :voted_for_player_id, "Vote em quem você acha que é O Gaiato:", class: "block text-gray-700 text-sm font-bold mb-2" %>
-        <% other_players = game.players.reject { |p| p.id == Current.player&.id } %>
-        <div class="space-y-2">
-          <% other_players.each do |player| %>
-            <div class="flex items-center">
-              <%= form.radio_button :voted_for_player_id, player.id, id: "vote_player_#{player.id}", class: "mr-2" %>
-              <%= form.label :voted_for_player_id, player.name, value: player.id, for: "vote_player_#{player.id}", class: "text-gray-700" %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-      <%= form.submit "Votar", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+  <div class="lg:col-span-4 space-y-4 flex-1">
+    <h1 class="text-3xl">A categoria é: <strong><%= game.category.name %></strong></h1>
+    <% if Current.player&.is_spy %>
+      <p class="text-2xl text-red-600 font-bold my-4">Você é o <span class="text-3xl">Gaiato!</span></p>
+      <p class="text-lg mb-4">Sua missão é descobrir qual é a palavra secreta sem ser descoberto.</p>
+      <p class="text-lg mb-4">Possíveis Palavras:</p>
+      <ul class="list-disc list-inside mb-4">
+        <% game.category.words.each do |word| %>
+          <li><%= word.text %></li>
+        <% end %>
+      </ul>
+      <p class="text-lg">Use sua Gaiatice para tentar dizer uma boa dica e não levantar suspeitas.</p>
+    <% else %>
+      <p class="text-xl text-green-600 font-bold my-4">A palavra secreta é: <span class="text-2xl"><%= game.word.text %></span></p>
+      <p class="text-lg mb-4">Outras palavras da categoria:</p>
+      <ul class="list-disc list-inside mb-4">
+        <% game.category.words.each do |word| %>
+          <li><%= word.text %></li>
+        <% end %>
+      </ul>
+      <p class="text-lg mb-4">Sua missão é descobrir quem é O Gaiato!</p>
+      <p class="text-lg mb-4">Aguarde sua vez e fale sua dica relacionada a palavra mas Atenção! Não revele a palavra secreta ou deixe muito obvio, o gaiato se aproveitará disto!</p>
+      <p class="text-lg">Depois discuta com os outros jogadores para tentar descobrir quem é O Gaiato!</p>
     <% end %>
-  <% else %>
-    <p class="text-lg text-gray-600">Você já votou em <%= Current.player.voted_for_player.name %></p>
-  <% end %>
+    <h3 class="text-xl font-medium mb-2">Jogadores:</h3>
+    <h3 class="text-xl font-medium mb-2">Votar:</h3>
+    <% if !Current.player&.has_voted %>
+      <%= form_with(url: vote_game_path(game.game_code), method: :post, local: true, data: { turbo: false }, html: { class: "max-w-lg mx-auto" }) do |form| %>
+        <div class="mb-4">
+          <%= form.label :voted_for_player_id, "Vote em quem você acha que é O Gaiato:", class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <% other_players = game.players.reject { |p| p.id == Current.player&.id } %>
+          <div class="space-y-2">
+            <% other_players.each do |player| %>
+              <div class="flex items-center">
+                <%= form.radio_button :voted_for_player_id, player.id, id: "vote_player_#{player.id}", class: "mr-2" %>
+                <%= form.label :voted_for_player_id, player.name, value: player.id, for: "vote_player_#{player.id}", class: "text-gray-700" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <%= form.submit "Votar", class: "btn-primary" %>
+      <% end %>
+    <% else %>
+      <p class="text-lg text-gray-600">Você já votou em <%= Current.player.voted_for_player.name %></p>
+    <% end %>
+  </div>
 </div>

@@ -1,5 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=DynaPuff:wght@400..700&display=swap');
 @import "tailwindcss";
 @tailwind utilities;
+
+@theme {
+  --color-base: #FFF1CA;
+  --color-primary: #ffb823;
+  --color-secondary: #708a58;
+  --color-accent: #2d4f2b;
+
+  --font-dynapuff: "DynaPuff", sans-serif;
+  --font-comic-relief: "Comic Relief", sans-serif;
+}
+
+/* =================
+   COMPONENTES BOTÕES 
+   ================= */
+
+/* Botão Principal */
+.btn-primary {
+  @apply bg-primary hover:bg-primary text-gray-800 font-bold py-3 px-6 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+}
+
+.btn-primary:hover {
+  background-color: #e6a520; /* primary-dark */
+}
+
+/* Botão Secundário */
+.btn-secondary {
+  @apply bg-secondary hover:bg-secondary text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+}
+
+.btn-secondary:hover {
+  background-color: #5c7249; /* secondary-dark */
+}
+
+/* Botão Accent */
+.btn-accent {
+  @apply bg-accent hover:bg-accent text-white font-bold py-3 px-6 rounded-full transition-colors duration-200 shadow-md;
+}
+
+.btn-accent:hover {
+  background-color: #1d3f1b; /* accent-dark */
+}
+
+/* Botão Outline */
+.btn-outline {
+  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
+}
+
+/* Botão Danger */
+.btn-danger {
+  @apply bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+}
+
+/* Botão Disabled */
+.btn-disabled {
+  @apply bg-gray-300 text-gray-500 font-medium py-2 px-4 rounded-lg cursor-not-allowed;
+}
+
+/* Tamanhos de botões */
+.btn-sm {
+  @apply py-1 px-3 text-sm;
+}
+
+.btn-lg {
+  @apply py-4 px-8 text-lg;
+}
+
+/* Botão com ícone */
+.btn-icon {
+  @apply flex items-center space-x-2;
+}
+
+/* =================
+   COMPONENTES BADGES 
+   ================= */
+
+/* Badge Principal */
+.badge-primary {
+  @apply bg-primary text-white px-3 py-1 rounded-full text-sm font-medium;
+}
+
+/* Badge Secundário */
+.badge-secondary {
+  @apply bg-secondary text-white px-3 py-1 rounded-full text-sm font-medium;
+}
+
+/* Badge Accent */
+.badge-accent {
+  @apply bg-accent text-white px-3 py-1 rounded-full text-sm font-medium;
+}
+
+/* Badge Success */
+.badge-success {
+  @apply bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium;
+}
+
+/* Badge Warning */
+.badge-warning {
+  @apply bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium;
+}
+
+/* Badge Danger */
+.badge-danger {
+  @apply bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium;
+}
+
+/* Badge Light */
+.badge-light {
+  @apply bg-base text-accent border border-accent/20 px-3 py-1 rounded-full text-sm font-medium;
+}
+
+/* Badge com ícone */
+.badge-icon {
+  @apply flex items-center space-x-1;
+}
+
+/* Tamanhos de badges */
+.badge-sm {
+  @apply px-2 py-0.5 text-xs;
+}
+
+.badge-lg {
+  @apply px-4 py-2 text-base;
+}
+
+/* =================
+   COMPONENTES CARDS 
+   ================= */
+
+.card {
+  @apply bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden;
+}
+
+.card-header {
+  @apply bg-gradient-to-r from-primary to-primary p-4 border-b;
+}
+
+.card-body {
+  @apply p-6;
+}
+
+.card-footer {
+  @apply p-4 bg-gray-50 border-t;
+}
+
+/* Card com tema */
+.card-primary {
+  @apply border-primary/20;
+}
+
+.card-secondary {
+  @apply border-secondary/20;
+}
+
+.card-accent {
+  @apply border-accent/20;
+}
+
+/* =================
+   LOADING DOTS 
+   ================= */
 
 .loading-dots span {
   @apply inline-block w-1 h-1 mx-0.5 bg-current rounded-full;

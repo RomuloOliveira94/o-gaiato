@@ -1,17 +1,22 @@
 <div id="player_<%= player.id %>" class="text-lg">
-  <% if player.has_voted? %>
-    <span class="flex items-center justify-center gap-2 font-semibold">
-      <%= random_avatar_image_tag(player, alt: "Avatar", width: 50, height: 50, class: "rounded-full") %>
-      <%= player.name %>
-      <svg xmlns="http://www.w3.org/2000/svg" class="inline w-5 h-5 text-green-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-      </svg>
-    </span>
-  <% else %>
-    <span class="flex items-center justify-center gap-2 font-semibold">
-      <%= random_avatar_image_tag(player, alt: "Avatar", width: 50, height: 50, class: "rounded-full") %>
-      <%= player.name %>
-    </span>
-  <% end %>
-  <% if player.id == Current.player&.id %> (Você) <% end %>
+  <div class="flex items-center justify-center font-semibold w-full">
+    <div class="rounded-full bg-gradient-to-b <%= player.id == Current.player&.id ? "from-primary to-primary" : "from-secondary to-accent" %> p-1.5 flex items-center z-20">
+      <%= random_avatar_image_tag(player, alt: "Avatar", width: 80, height: 80, class: "rounded-full") %>
+    </div>
+    <div class="rounded-r-full bg-gradient-to-b <%= player.id == Current.player&.id ? "from-primary to-primary" : "from-secondary to-accent" %> p-1.5 flex items-center max-w-72 w-full -ml-4 z-10">
+      <div class="flex items-center justify-center gap-2 bg-base rounded-r-full px-3 py-1 w-full relative">
+        <span class=" truncate max-w-36">
+          <%= player.name %>
+        </span>
+        <div class="absolute -right-3 -top-7 flex items-center">
+          <% if player.has_voted? %>
+          <small>Votou!</small>
+            <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 text-accent mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
