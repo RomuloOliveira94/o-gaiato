@@ -31,7 +31,7 @@
               <% if player.is_spy %>
                 <span class="text-red-600 font-bold">(Gaiato)</span>
               <% end %>
-              <% if player.id == current_player&.id %>
+              <% if player.id == Current.player&.id %>
                 <span class="text-blue-600">(Você)</span>
               <% end %>
             </span>

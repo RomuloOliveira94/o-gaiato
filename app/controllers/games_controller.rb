@@ -14,9 +14,7 @@ class GamesController < ApplicationController
     end
   end
 
-  def show
-    reload_current_player  # Garante que o current_player esteja atualizado
-  end
+  def show; end
 
   def join
     @game = Game.find_by(game_code: game_params[:game_code])
@@ -37,11 +35,6 @@ class GamesController < ApplicationController
     if @game.players.count >= 2
       @game.assign_roles_and_words
       if @game.save
-        reload_current_player  # Recarrega o current_player para refletir mudanças
-
-        # Força um broadcast manual com o current_player atualizado
-        @game.broadcast_replace_to @game, target: @game, locals: { game: @game, current_player: current_player }
-
         redirect_to game_path(@game.game_code), notice: "Jogo iniciado com sucesso!"
       else
         redirect_to game_path(@game.game_code), alert: "Não foi possível iniciar o jogo."
@@ -52,12 +45,10 @@ class GamesController < ApplicationController
   end
 
   def vote
-    reload_current_player  # Garante que o current_player esteja atualizado
-    @player = current_player
+    @player = Current.player
     if @player && !@player.has_voted && @game.status == "in_progress"
       @player.update(voted_for_player_id: params[:voted_for_player_id], has_voted: true)
       @game.check_game_end_conditions
-      reload_current_player  # Recarrega após atualizar
       redirect_to game_path(@game.game_code), notice: "Seu voto foi computado!"
     else
       redirect_to game_path(@game.game_code), alert: "Não foi possível votar."
@@ -65,7 +56,7 @@ class GamesController < ApplicationController
   end
 
   def destroy
-    if current_player&.id == @game.owner&.id
+    if Current.player&.id == @game.owner&.id
       begin
         ActiveRecord::Base.transaction do
           @game.update!(owner_id: nil, spy_player_id: nil)
@@ -85,9 +76,9 @@ class GamesController < ApplicationController
   end
 
   def leave
-    if current_player && @game.players.include?(current_player)
+    if Current.player && @game.players.include?(Current.player)
 
-      if current_player.id == @game.owner&.id
+      if Current.player.id == @game.owner&.id
         redirect_to game_path(@game.game_code), alert: "O criador do jogo não pode sair. Use 'Cancelar Jogo' para deletar o jogo."
         return
       end
@@ -97,7 +88,7 @@ class GamesController < ApplicationController
         return
       end
 
-      current_player.destroy
+      Current.player.destroy
       session[:player_id] = nil
 
       redirect_to root_path, notice: "Você saiu."

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     post :start, on: :member
     post :vote, on: :member
     delete :leave, on: :member
+    get :player_data, on: :member
     post :join, on: :collection
   end
 end

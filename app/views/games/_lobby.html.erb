@@ -18,14 +18,13 @@
   <div id="players-list">
     <%= render game.players %>
   </div>
-  <% if game.players.any? && current_player&.id == game.owner&.id %>
+  <% if game.players.any? && Current.player&.id == game.owner&.id %>
     <div class="mt-6 flex gap-3 justify-center">
       <%= button_to "Iniciar Jogo", start_game_path(game.game_code), method: :post, class: "bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors cursor-pointer" %>
-      
       <%= button_to "Cancelar Jogo", game_path(game.game_code), method: :delete, 
           class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors cursor-pointer" %>
     </div>
-  <% elsif current_player && game.players.include?(current_player) %>
+  <% elsif Current.player && game.players.include?(Current.player) %>
     <div class="mt-6 flex justify-center">
       <%= button_to "Sair do Lobby", leave_game_path(game.game_code), method: :delete,
           class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors cursor-pointer" %>

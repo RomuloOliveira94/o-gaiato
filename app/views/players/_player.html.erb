@@ -1,4 +1,17 @@
 <div id="player_<%= player.id %>" class="text-lg">
-  <%= player.name %>
-  <% if player.id == current_player&.id %> (Você) <% end %>
+  <% if player.has_voted? %>
+    <span class="flex items-center justify-center gap-2 font-semibold">
+      <%= random_avatar_image_tag(player, alt: "Avatar", width: 50, height: 50, class: "rounded-full") %>
+      <%= player.name %>
+      <svg xmlns="http://www.w3.org/2000/svg" class="inline w-5 h-5 text-green-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </span>
+  <% else %>
+    <span class="flex items-center justify-center gap-2 font-semibold">
+      <%= random_avatar_image_tag(player, alt: "Avatar", width: 50, height: 50, class: "rounded-full") %>
+      <%= player.name %>
+    </span>
+  <% end %>
+  <% if player.id == Current.player&.id %> (Você) <% end %>
 </div>

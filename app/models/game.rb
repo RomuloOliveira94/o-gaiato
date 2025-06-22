@@ -5,7 +5,7 @@ class Game < ApplicationRecord
   belongs_to :owner, class_name: "Player", optional: true
   belongs_to :spy_player, class_name: "Player", optional: true
 
-  after_update_commit -> { broadcast_update_to self, target: self, locals: { game: self } }
+  after_update_commit -> { broadcast_action_to self, action: :refresh }
 
   enum :status, { waiting: 0, in_progress: 1, finished: 2 }
   enum :result, { no_result: 0, players_win: 1, spy_wins: 2 }
@@ -14,6 +14,10 @@ class Game < ApplicationRecord
     self.category = Category.order("RANDOM()").first
     self.word = self.category.words.order("RANDOM()").first
 
+    # Reset todos os players para não-spy
+    players.update_all(is_spy: false)
+
+    # Escolhe e define o spy
     self.spy_player = players.sample
     self.spy_player.update(is_spy: true)
 
