@@ -1,34 +1,32 @@
-<div class="container mx-auto p-4 text-center">
-  <h1 class="text-4xl font-bold mb-8">O Gaiato!</h1>
-  <div class="grid gap-8 max-w-lg mx-auto">
-    <div class="bg-white p-6 rounded-lg shadow-md">
-      <h2 class="text-2xl font-semibold mb-4">Criar Novo Jogo</h2>
-      <%= form_with(model: @player, url: games_path, local: true, data: { turbo: false }) do |form| %>
-        <div class="mb-4">
-          <%= form.label :name, "Seu Nome", class: "block text-gray-700 text-sm font-bold mb-2" %>
-          <%= form.text_field :name, required: true, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder: "Seu Nome" %>
-          <% if @game && @game.errors[:name].any? %>
-            <div class="text-red-500 text-sm mt-1">
-              <%= @game.errors[:name].first %>
-            </div>
-          <% end %>
-        </div>
-        <%= form.submit "Criar Jogo", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
-      <% end %>
-    </div>
-    <div class="bg-white p-6 rounded-lg shadow-md">
-      <h2 class="text-2xl font-semibold mb-4">Entrar em um Jogo</h2>
-      <%= form_with(url: join_games_path, method: :post, local: true, data: { turbo: false }) do |form| %>
-      <div class="mb-4">
+<div class="flex flex-col md:flex-row w-full">
+  <div class="p-6 w-full">
+    <h2 class="text-2xl font-semibold mb-4">Criar Novo Jogo</h2>
+    <%= form_with(model: @player, url: games_path, local: true, data: { turbo: false }) do |form| %>
+      <div class="mb-4 w-72">
+        <%= form.label :name, "Seu Nome", class: "block text-gray-700 text-sm font-bold mb-2" %>
+        <%= form.text_field :name, required: true, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder: "Seu Nome" %>
+        <% if @game && @game.errors[:name].any? %>
+          <div class="text-red-500 text-sm mt-1">
+            <%= @game.errors[:name].first %>
+          </div>
+        <% end %>
+      </div>
+      <%= form.submit "Criar Jogo", class: "btn-primary" %>
+    <% end %>
+  </div>
+  <div class="border-r border-gray-300"></div>
+  <div class="p-6 w-full">
+    <h2 class="text-2xl font-semibold mb-4">Entrar em um Jogo</h2>
+    <%= form_with(url: join_games_path, method: :post, local: true, data: { turbo: false }) do |form| %>
+      <div class="mb-4 w-72">
         <%= form.label :game_code, "Código do Jogo", class: "block text-gray-700 text-sm font-bold mb-2" %>
         <%= form.text_field :game_code, name: "game[game_code]", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder: "Ex: ABC123" %>
       </div>
-      <div class="mb-4">
+      <div class="mb-4 w-72">
         <%= form.label :name, "Seu Nome", class: "block text-gray-700 text-sm font-bold mb-2" %>
         <%= form.text_field :name, name: "player[name]", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder: "Seu Nome" %>
       </div>
-      <%= form.submit "Entrar", class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
-      <% end %>
-    </div>
+      <%= form.submit "Entrar", class: "btn-primary" %>
+    <% end %>
   </div>
 </div>

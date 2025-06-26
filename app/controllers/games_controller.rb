@@ -1,11 +1,13 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [ :show, :start, :vote, :destroy, :leave ]
+  before_action :check_game_token, only: [ :show ]
 
   def create
     @game = Game.new
     @player = @game.players.new(player_params)
     @game.game_code = generate_game_code
     if @game.save
+      save_game_session
       save_session_player(@player)
       associate_game_owner(@game, @player)
       redirect_to game_path(@game.game_code)
@@ -21,6 +23,7 @@ class GamesController < ApplicationController
     if @game
       @player = @game.players.new(player_params) if @game
       if @player.save
+        save_game_session
         save_session_player(@player)
         redirect_to game_path(@game.game_code)
       else
@@ -40,7 +43,7 @@ class GamesController < ApplicationController
         redirect_to game_path(@game.game_code), alert: "Não foi possível iniciar o jogo."
       end
     else
-      redirect_to game_path(@game.game_code), alert: "É necessário pelo menos 3 jogadores para iniciar."
+      redirect_to game_path(@game.game_code), alert: "É necessário pelo menos 4 jogadores para iniciar."
     end
   end
 
@@ -65,6 +68,7 @@ class GamesController < ApplicationController
         end
 
         session[:player_id] = nil
+        destroy_game_session
         redirect_to root_path, notice: "Jogo cancelado com sucesso."
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => e
         Rails.logger.error "Erro ao deletar jogo: #{e.message}"
@@ -90,6 +94,7 @@ class GamesController < ApplicationController
 
       Current.player.destroy
       session[:player_id] = nil
+      destroy_game_session
 
       redirect_to root_path, notice: "Você saiu."
     else
@@ -125,5 +130,19 @@ class GamesController < ApplicationController
   def associate_game_owner(game, player)
     game.owner = player
     game.save!
+  end
+
+  def save_game_session
+    session[:game_token] = "#{@game.id}_#{request.remote_ip}" if @game
+  end
+
+  def destroy_game_session
+    session[:game_token] = nil
+  end
+
+  def check_game_token
+    if session[:game_token].blank? || session[:game_token] != "#{@game.id}_#{request.remote_ip}"
+      redirect_to root_path, alert: "Acesso não autorizado ao jogo."
+    end
   end
 end

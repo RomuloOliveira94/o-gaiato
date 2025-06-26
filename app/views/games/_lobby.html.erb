@@ -7,27 +7,27 @@
       <span></span>
     </span>
   </h2>
-  <p class="text-lg mb-4 flex items-center justify-center gap-2">
+  <p class="text-xl mb-4 flex items-center justify-center gap-2 font-semibold">
     Compartilhe este código com seus amigos:
     <%= render 'shared/copy_button', 
         text: game.game_code,
         button_class: "font-bold text-blue-600 text-2xl cursor-pointer flex items-center gap-1 hover:opacity-80 transition-opacity",
         feedback_message: "Código copiado!" %>
   </p>
-  <h3 class="text-xl font-medium mb-2">Jogadores Conectados:</h3>
-  <div id="players-list">
+  <h3 class="text-2xl font-semibold mb-2">Jogadores Conectados:</h3>
+  <div id="players-list" class="space-y-2 w-72 mx-auto">
     <%= render game.players %>
   </div>
   <% if game.players.any? && Current.player&.id == game.owner&.id %>
     <div class="mt-6 flex gap-3 justify-center">
-      <%= button_to "Iniciar Jogo", start_game_path(game.game_code), method: :post, class: "bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors cursor-pointer" %>
+      <%= button_to "Iniciar Jogo", start_game_path(game.game_code), method: :post, class: "btn-primary" %>
       <%= button_to "Cancelar Jogo", game_path(game.game_code), method: :delete, 
-          class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors cursor-pointer" %>
+          class: "btn-danger" %>
     </div>
   <% elsif Current.player && game.players.include?(Current.player) %>
     <div class="mt-6 flex justify-center">
       <%= button_to "Sair do Lobby", leave_game_path(game.game_code), method: :delete,
-          class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors cursor-pointer" %>
+          class: "btn-danger" %>
     </div>
   <% end %>
 </div>
