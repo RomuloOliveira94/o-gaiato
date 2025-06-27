@@ -105,6 +105,8 @@ class GamesController < ApplicationController
   def kick_player
     @player = @game.players.find(params[:player_id])
     if @player && @player != @game.owner
+      UserRedirectChannel.broadcast_to(@player, redirect_to: root_path)
+
       @player.destroy
       redirect_to game_path(@game.game_code), notice: "Jogador expulso com sucesso."
     else
@@ -135,6 +137,8 @@ class GamesController < ApplicationController
 
   def save_session_player(player)
     session[:player_id] = player.id if player.persisted?
+
+    cookies.encrypted[:player_id] = { value: player.id, httponly: true }
   end
 
   def associate_game_owner(game, player)
