@@ -1,17 +1,27 @@
 import consumer from "channels/consumer";
 
-function clearCookie(name) {
-  document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+function handleLeave(leave) {
+  fetch(leave, {
+    method: "DELETE",
+    headers: {
+      "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+      Accept: "application/json",
+    },
+  })
+    .then((response) => {
+      window.location.href = response.url;
+    })
+    .catch((error) => {
+      console.error("Error during redirect:", error);
+    });
 }
 
 consumer.subscriptions.create(
   { channel: "UserRedirectChannel" },
   {
     received(data) {
-      if (data.redirect_to) {
-        clearCookie("_o_gaiato_session");
-        clearCookie("player_id");
-        //window.location.href = data.redirect_to;
+      if (data.leave) {
+        handleLeave(data.leave);
       }
     },
   }
