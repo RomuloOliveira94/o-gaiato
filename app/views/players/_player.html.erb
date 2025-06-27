@@ -10,7 +10,7 @@
         </span>
         <div class="absolute -right-3 -top-7 flex items-center">
           <% if player.has_voted? %>
-          <small>Votou!</small>
+            <small>Votou!</small>
             <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 text-accent mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
@@ -18,5 +18,8 @@
         </div>
       </div>
     </div>
+    <% if game_owner? && player.id != Current.game.owner.id && Current.game.status == "waiting" %>
+      <%= button_to 'Kick', kick_player_game_path(Current.game.game_code, player_id: player.id), method: :post, data: { confirm: 'Are you sure you want to kick this player?' }, class: "ml-2 px-3 py-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition" %>
+    <% end %>
   </div>
 </div>

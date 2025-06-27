@@ -15,7 +15,7 @@
         feedback_message: "Código copiado!" %>
   </p>
   <h3 class="text-2xl font-semibold mb-2">Jogadores Conectados:</h3>
-  <div id="players-list" class="space-y-2 w-72 mx-auto">
+  <div id="players-list" data-current-player-id="<%= Current.player&.id %>" class="space-y-2 w-72 mx-auto">
     <%= render game.players %>
   </div>
   <% if game.players.any? && Current.player&.id == game.owner&.id %>

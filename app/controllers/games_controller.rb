@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [ :show, :start, :vote, :destroy, :leave ]
+  before_action :set_game, only: [ :show, :start, :vote, :destroy, :leave, :kick_player ]
   before_action :check_game_token, only: [ :show ]
 
   def create
@@ -49,12 +49,12 @@ class GamesController < ApplicationController
 
   def vote
     @player = Current.player
-    if @player && !@player.has_voted && @game.status == "in_progress"
+    if @player && !@player.has_voted && @game.status == "in_progress" && params[:voted_for_player_id].present?
       @player.update(voted_for_player_id: params[:voted_for_player_id], has_voted: true)
       @game.check_game_end_conditions
       redirect_to game_path(@game.game_code), notice: "Seu voto foi computado!"
     else
-      redirect_to game_path(@game.game_code), alert: "Não foi possível votar."
+      redirect_to game_path(@game.game_code), alert: "Vote em um jogador."
     end
   end
 
@@ -99,6 +99,16 @@ class GamesController < ApplicationController
       redirect_to root_path, notice: "Você saiu."
     else
       redirect_to root_path, alert: "Você não está neste jogo."
+    end
+  end
+
+  def kick_player
+    @player = @game.players.find(params[:player_id])
+    if @player && @player != @game.owner
+      @player.destroy
+      redirect_to game_path(@game.game_code), notice: "Jogador expulso com sucesso."
+    else
+      redirect_to game_path(@game.game_code), alert: "Não foi possível expulsar o jogador."
     end
   end
 

@@ -6,6 +6,7 @@ class Game < ApplicationRecord
   belongs_to :spy_player, class_name: "Player", optional: true
 
   after_update_commit -> { broadcast_action_to self, action: :refresh }
+  after_create :update_current_attributes
 
   enum :status, { waiting: 0, in_progress: 1, finished: 2 }
   enum :result, { no_result: 0, players_win: 1, spy_wins: 2 }
@@ -14,10 +15,8 @@ class Game < ApplicationRecord
     self.category = Category.order("RANDOM()").first
     self.word = self.category.words.order("RANDOM()").first
 
-    # Reset todos os players para não-spy
     players.update_all(is_spy: false)
 
-    # Escolhe e define o spy
     self.spy_player = players.sample
     self.spy_player.update(is_spy: true)
 
@@ -29,22 +28,27 @@ class Game < ApplicationRecord
   def check_game_end_conditions
     return unless in_progress?
 
-    # Verifica se todos os jogadores votaram
     if players.all?(&:has_voted)
-      # Conta os votos
       vote_counts = players.group(:voted_for_player_id).count
-      most_voted_player_id = vote_counts.max_by { |_, count| count }&.first
+      max_count = vote_counts.values.max
+      winners  = vote_counts.select { |_, c| c == max_count }.keys
 
-      if most_voted_player_id && most_voted_player_id == spy_player_id
-        # Spy foi descoberto - jogadores vencem
+      if winners.size > 1
+        self.result = "spy_wins"
+      elsif winners.first == spy_player_id
         self.result = "players_win"
       else
-        # Spy não foi descoberto - spy vence
         self.result = "spy_wins"
       end
 
       self.status = "finished"
       save
     end
+  end
+
+  private
+
+  def update_current_attributes
+    Current.game = self
   end
 end

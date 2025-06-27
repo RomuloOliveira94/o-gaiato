@@ -1,7 +1,7 @@
 <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 p-4 text-center">
   <div class="lg:col-span-1 space-y-2 flex-1">
     <h1 class="text-2xl font-semibold">Jogadores:</h1>
-    <div id="players-list" class="space-y-2">
+    <div id="players-list" data-current-player-id="<%= Current.player&.id %>" class="space-y-2">
       <%= render game.players %>
     </div>
   </div>

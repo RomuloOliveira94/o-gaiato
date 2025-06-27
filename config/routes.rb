@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     post :vote, on: :member
     delete :leave, on: :member
     get :player_data, on: :member
+    post :kick_player, on: :member
     post :join, on: :collection
   end
 end

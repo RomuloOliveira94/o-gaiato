@@ -1,3 +1,3 @@
 class Current < ActiveSupport::CurrentAttributes
-  attribute :player, :game, :session_data
+  attribute :player, :game, :game_token
 end
