@@ -35,7 +35,7 @@ class GamesController < ApplicationController
   end
 
   def start
-    if @game.players.count >= 2
+    if @game.players.count >= 3
       @game.assign_roles_and_words
       if @game.save
         redirect_to game_path(@game.game_code), notice: "Jogo iniciado com sucesso!"
@@ -43,7 +43,7 @@ class GamesController < ApplicationController
         redirect_to game_path(@game.game_code), alert: "Não foi possível iniciar o jogo."
       end
     else
-      redirect_to game_path(@game.game_code), alert: "É necessário pelo menos 4 jogadores para iniciar."
+      redirect_to game_path(@game.game_code), alert: "É necessário pelo menos 3 jogadores para iniciar."
     end
   end
 
