@@ -1,7 +1,6 @@
 source "https://rubygems.org"
 
 gem "bootsnap", require: false
-gem "brakeman", require: false
 gem "importmap-rails"
 gem "jbuilder"
 gem "kamal", require: false
