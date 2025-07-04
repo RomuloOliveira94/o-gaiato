@@ -4,7 +4,10 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new
-    @player = @game.players.new(player_params)
+    @player = Player.find_or_initialize_by(session_id: session.id.to_s)
+    @player.assign_attributes(player_params.merge(game: @game))
+    @player.reset
+    @player.save
     @game.game_code = generate_game_code
     if @game.save
       associate_game_owner(@game, @player)
@@ -17,7 +20,7 @@ class GamesController < ApplicationController
   def show; end
 
   def join
-    @game = Game.find_by(game_code: params[:game_code])
+    @game = Game.find_by(game_code: game_params[:game_code])
     unless @game
       redirect_to root_path, alert: "Jogo não encontrado."
       return
@@ -25,6 +28,7 @@ class GamesController < ApplicationController
 
     @player = Player.find_or_initialize_by(session_id: session.id.to_s)
     @player.assign_attributes(player_params.merge(game: @game))
+    @player.reset
     if @player.save
       redirect_to game_path(@game.game_code)
     else
@@ -57,8 +61,20 @@ class GamesController < ApplicationController
 
   def destroy
     if @player&.id == @game.owner&.id
+      @game.players.each do |player|
+        next if player.id == @player.id
+
+        UserRedirectChannel.broadcast_to(player, leave: leave_game_path)
+      end
+
       begin
         ActiveRecord::Base.transaction do
+          @game.players.each do |player|
+            player.reset
+            player.game = nil
+            player.save
+          end
+
           @game.update!(owner_id: nil, spy_player_id: nil)
 
           @game.destroy!
@@ -76,17 +92,14 @@ class GamesController < ApplicationController
 
   def leave
     if @player && @game.players.include?(@player)
-
-      if @player.id == @game.owner&.id
-        redirect_to game_path(@game.game_code), alert: "O criador do jogo não pode sair. Use 'Cancelar Jogo' para deletar o jogo."
-        return
-      end
-
       if @game.in_progress? || @game.finished?
         redirect_to game_path(@game.game_code), alert: "Não é possível sair de um jogo em andamento."
         return
       end
 
+      @player.reset
+      @player.game = nil
+      @player.save
       redirect_to root_path, notice: "Você saiu."
     else
       redirect_to root_path, alert: "Você não está neste jogo."
@@ -97,6 +110,7 @@ class GamesController < ApplicationController
     @player = @game.players.find(params[:player_id])
     if @player && @player != @game.owner
       UserRedirectChannel.broadcast_to(@player, leave: leave_game_path)
+      redirect_to game_path(@game.game_code), notice: "#{@player.name} foi expulso do jogo."
     else
       redirect_to game_path(@game.game_code), alert: "Não foi possível expulsar o jogador."
     end

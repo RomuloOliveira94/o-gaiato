@@ -9,7 +9,7 @@ function handleLeave(leave) {
     },
   })
     .then((response) => {
-      window.location.href = response.url;
+      window.location.href = "/";
     })
     .catch((error) => {
       console.error("Error during redirect:", error);

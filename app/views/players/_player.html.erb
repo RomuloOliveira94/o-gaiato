@@ -1,5 +1,5 @@
 <%
-  end_game = Current.game.status == "finished"
+  end_game = Current&.game&.status == "finished"
 
   border_bg = case
   when end_game && player.is_spy
@@ -12,6 +12,11 @@
 %>
 <div id="player_<%= player.id %>" class="text-lg">
   <div class="flex items-center justify-center font-semibold w-full gap-1 relative">
+    <% if defined?(index) && index.present? %>
+      <span class="absolute left-0 top-0 bg-accent text-white rounded-full size-6 flex items-center justify-center text-sm font-bold z-30">
+        <%= index + 1 %>
+      </span>
+    <% end %>
     <div class="rounded-full bg-gradient-to-b <%= border_bg %> p-1 flex items-center z-20 justify-center object-center">
       <div class=" rounded-full object-cover size-16 overflow-hidden flex items-center justify-center">
         <% if end_game && player.is_spy %>
@@ -40,7 +45,7 @@
         </div>
       </div>
     </div>
-    <% if game_owner? && player.id != Current.game.owner.id && Current.game.status == "waiting" %>
+    <% if game_owner? && player.id != Current&.game&.owner&.id && Current&.game&.status == "waiting" %>
       <%= button_to kick_player_game_path(Current.game.game_code, player_id: player.id), method: :post, class: "p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition mt-1 absolute -right-2 -top-2 z-30"  do %>
         <%= inline_svg_tag "boot.svg", class: "size-8" %>
       <% end %>

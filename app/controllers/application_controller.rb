@@ -11,8 +11,9 @@ class ApplicationController < ActionController::Base
 
   def set_current_attributes
     Current.player = current_player
-
+2
     Current.game = Current.player.game if current_player.present?
+    cookies.encrypted[:session_id] = Current.player.session_id if Current.player.present?
   end
 
   def game_owner?

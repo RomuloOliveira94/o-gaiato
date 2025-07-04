@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-  has_many :players, dependent: :destroy
+  has_many :players
   belongs_to :category, optional: true
   belongs_to :word, optional: true
   belongs_to :owner, class_name: "Player", optional: true

@@ -9,7 +9,7 @@ module ApplicationCable
     private
 
     def find_verified_player
-      player = Player.find_by(id: cookies.encrypted[:player_id])
+      player = Player.find_by(session_id: cookies.encrypted[:session_id].to_s)
       player || reject_unauthorized_connection
     end
   end
