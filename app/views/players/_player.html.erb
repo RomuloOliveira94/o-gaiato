@@ -24,9 +24,7 @@
     <div class="rounded-r-full bg-gradient-to-b <%= border_bg %> p-1 flex items-center max-w-72 w-full -ml-4 z-10">
       <div class="flex items-center justify-center gap-2 bg-gradient-to-b from-base via-yellow-300 to-yellow-400 rounded-r-full px-3 py-1 w-full relative">
         <span class=" truncate max-w-36">
-          <%= player.name %> <% if player.is_spy %>
-            <small class="text-xs text-red-600">(O Gaiato)</small>
-          <% end %>
+          <%= player.name %>
         </span>
         <div class="absolute -right-3 -top-7 flex items-center">
           <% if player.has_voted? && !end_game %>
