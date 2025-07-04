@@ -6,7 +6,6 @@ class Game < ApplicationRecord
   belongs_to :spy_player, class_name: "Player", optional: true
 
   after_update_commit -> { broadcast_action_to self, action: :refresh }
-  after_create :update_current_attributes
 
   enum :status, { waiting: 0, in_progress: 1, finished: 2 }
   enum :result, { no_result: 0, players_win: 1, spy_wins: 2 }
@@ -44,11 +43,5 @@ class Game < ApplicationRecord
       self.status = "finished"
       save
     end
-  end
-
-  private
-
-  def update_current_attributes
-    Current.game = self
   end
 end
