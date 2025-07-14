@@ -9,6 +9,62 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
+/* PWA e Mobile Fullscreen Styles */
+@media (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    height: 100vh;
+    height: -webkit-fill-available;
+  }
+}
+
+/* iOS Safari específico */
+@supports (-webkit-touch-callout: none) {
+  .standalone {
+    height: 100vh;
+    height: -webkit-fill-available;
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* Esconde scrollbars quando em fullscreen */
+body:fullscreen {
+  overflow: hidden;
+}
+
+body:-webkit-full-screen {
+  overflow: hidden;
+}
+
+body:-moz-full-screen {
+  overflow: hidden;
+}
+
+body:-ms-fullscreen {
+  overflow: hidden;
+}
+
+/* Botão de toggle fullscreen */
+.fullscreen-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fullscreen-toggle:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.05);
+}
+
 /* Flash Messages Animations */
 @keyframes fade-in {
   from {

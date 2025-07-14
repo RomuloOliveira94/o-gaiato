@@ -3,13 +3,19 @@
   <head>
     <title><%= content_for(:title) || "O Gaiato" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <!-- PWA e controle de toolbar nativa -->
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#f3f4f6">
+    <meta name="apple-mobile-web-app-title" content="O Gaiato">
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    <%= tag.link rel: "manifest", href: pwa_manifest_path %>
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
@@ -17,7 +23,12 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-  <body class="bg-base text-gray-900 antialiased font-comic-relief">
+  <body class="bg-base text-gray-900 antialiased font-comic-relief" data-controller="fullscreen">
+    <!-- Botão para toggle fullscreen (opcional) -->
+    <button data-action="click->fullscreen#toggle" class="fullscreen-toggle" title="Toggle Fullscreen">
+      ⛶
+    </button>
+    
     <%= render 'shared/flash_messages' %>
     <div class="flex items-center justify-start flex-col mt-4">
       <%= image_tag "o-gaiato.png", alt: "Logo", class: "logo", width: 90, class: "" %>
