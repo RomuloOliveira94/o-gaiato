@@ -3,14 +3,12 @@
   <head>
     <title><%= content_for(:title) || "O Gaiato" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    
     <!-- PWA e controle de toolbar nativa -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#f3f4f6">
     <meta name="apple-mobile-web-app-title" content="O Gaiato">
-    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
@@ -28,7 +26,7 @@
     <button data-action="click->fullscreen#toggle" class="fullscreen-toggle" title="Toggle Fullscreen">
       ⛶
     </button>
-    
+    <%= link_to "Home", root_path, data: { controller: "native-button", bridge_title: "Home" } %>
     <%= render 'shared/flash_messages' %>
     <div class="flex items-center justify-start flex-col mt-4">
       <%= image_tag "o-gaiato.png", alt: "Logo", class: "logo", width: 90, class: "" %>

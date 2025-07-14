@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=DynaPuff:wght@400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=DynaPuff:wght@400..700&display=swap");
 @import "tailwindcss";
 @tailwind utilities;
 
 @theme {
-  --color-base: #FFF1CA;
+  --color-base: #fff1ca;
   --color-primary: #ffb823;
   --color-secondary: #708a58;
   --color-accent: #2d4f2b;
@@ -188,4 +188,8 @@
     transform: scale(1);
     opacity: 1;
   }
+}
+
+[data-controller~="native-button"] {
+  display: none;
 }
