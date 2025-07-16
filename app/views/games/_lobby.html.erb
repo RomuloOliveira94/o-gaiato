@@ -1,3 +1,8 @@
+<%= link_to "Cancelar Jogo", game_path(game.game_code), method: :delete, data: {
+  controller: "bridge--button",
+  turbo_method: :delete,
+  turbo_frame: "_top"
+}%>
 <div>
   <h2 class="text-2xl font-semibold mb-4">
     <span class="animate-pulse">Aguardando Jogadores</span>

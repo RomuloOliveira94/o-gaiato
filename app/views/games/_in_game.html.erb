@@ -2,7 +2,7 @@
   <div class="lg:col-span-1 space-y-2 flex-1">
     <h1 class="text-2xl font-semibold">Jogadores:</h1>
     <div id="players-list" data-current-player-id="<%= Current.player&.id %>" class="space-y-2">
-      <% game.players.shuffle.each_with_index do |player, index| %>
+      <% game.players.order(:created_at).each_with_index do |player, index| %>
         <%= render 'players/player', player: player, index: index %>
       <% end %>
     </div>

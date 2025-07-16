@@ -20,13 +20,12 @@
     <%= javascript_importmap_tags %>
   </head>
   <body class="bg-base text-gray-900 antialiased font-comic-relief" data-controller="fullscreen">
-    <%= link_to "Afofado", root_path, data: {
-      controller: "bridge--button"
-    }%>
-    <!-- Botão para toggle fullscreen (opcional) -->
-    <button data-action="click->fullscreen#toggle" class="fullscreen-toggle" title="Toggle Fullscreen">
-      ⛶
-    </button>
+    <% unless turbo_native? %>
+      <!-- Botão para toggle fullscreen (opcional) -->
+      <button data-action="click->fullscreen#toggle" class="fullscreen-toggle" title="Toggle Fullscreen">
+        ⛶
+      </button>
+    <% end %>
     <%= render 'shared/flash_messages' %>
     <div class="flex items-center justify-start flex-col mt-4">
       <%= image_tag "o-gaiato.png", alt: "Logo", class: "logo", width: 90, class: "" %>
