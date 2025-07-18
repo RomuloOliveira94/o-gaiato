@@ -20,7 +20,7 @@
     <%= javascript_importmap_tags %>
   </head>
   <body class="bg-base text-gray-900 antialiased font-comic-relief" data-controller="fullscreen">
-    <% unless turbo_native? %>
+    <% unless hotwire_native_app? %>
       <!-- Botão para toggle fullscreen (opcional) -->
       <button data-action="click->fullscreen#toggle" class="fullscreen-toggle" title="Toggle Fullscreen">
         ⛶
