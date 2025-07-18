@@ -12,7 +12,7 @@
 %>
 <div id="player_<%= player.id %>" class="text-lg">
   <div class="flex items-center justify-center font-semibold w-full gap-1 relative">
-    <% if defined?(index) && index.present? %>
+    <% if defined?(index) && index.present? && !end_game %>
       <span class="absolute left-0 top-0 bg-accent text-white rounded-full size-6 flex items-center justify-center text-sm font-bold z-30">
         <%= index + 1 %>
       </span>
