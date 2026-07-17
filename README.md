@@ -1,80 +1,99 @@
-# O Gaiato
+<div align="center">
 
-![Badge de Tecnologia](https://img.shields.io/badge/Ruby-CC342D?style=for-the-badge&logo=ruby&logoColor=white)
-![Badge de Tecnologia](https://img.shields.io/badge/Ruby%20on%20Rails-CC0000?style=for-the-badge&logo=rubyonrails&logoColor=white)
-![Badge de Tecnologia](https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Badge de Tecnologia](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
+# 🕵️ O Gaiato
 
-Um divertido jogo de dedução social para jogar com amigos, desenvolvido com Ruby on Rails e WebSockets para uma experiência em tempo real.
+### Um jogo de dedução social multiplayer, direto do navegador — sem app, sem cadastro, só o código da sala.
 
-## 📜 Sobre o Jogo
+[![Ruby](https://img.shields.io/badge/Ruby-3.3.0-CC342D?logo=ruby&logoColor=white)](.ruby-version)
+[![Rails](https://img.shields.io/badge/Rails-8.0-CC0000?logo=rubyonrails&logoColor=white)](Gemfile)
+[![PWA](https://img.shields.io/badge/PWA-ready-5A0FC8?logo=pwa&logoColor=white)](app/views/pwa/manifest.json.erb)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-<img width="271" height="213" alt="image" src="https://github.com/user-attachments/assets/5c093fcb-a9b1-4035-bd66-90d6f7c670a2" />
+</div>
 
-**O Gaiato** é um jogo onde os jogadores precisam usar a criatividade e a perspicácia para descobrir o impostor entre eles. Um jogador é secretamente designado como o "Gaiato" e não sabe qual é a palavra secreta, enquanto todos os outros sabem. O objetivo dos jogadores é descobrir quem é o Gaiato, e o objetivo do Gaiato é se misturar e adivinhar a palavra secreta.
+---
 
-## 🛠️ Tecnologias Utilizadas
+## 🎉 Sobre
 
-O projeto foi construído utilizando as seguintes tecnologias:
+<img width="271" height="213" alt="Captura de tela do jogo O Gaiato" src="https://github.com/user-attachments/assets/5c093fcb-a9b1-4035-bd66-90d6f7c670a2" />
 
-* **Backend:** Ruby on Rails
-* **Frontend:** Tailwind CSS
-* **Comunicação em tempo real:** WebSockets (Action Cable)
-* **Banco de Dados:** SQLite
-* **Linguagem:** Ruby
+**O Gaiato** é a implementação em Ruby on Rails do clássico jogo de dedução social (estilo *Spyfall*/"undercover"), em português. Um tema e uma palavra secreta são sorteados, todo mundo vê a palavra... menos **O Gaiato**, o espião da rodada. Os jogadores dão dicas verbais, discutem, votam — e descobrem se acertaram o disfarçado.
 
-## 룰 Regras do Jogo
+Não tem contas, não tem senha: cada jogador entra numa sala com um código e joga direto pelo celular ou navegador, no mesmo ambiente físico dos amigos.
 
-1.  **Sorteio:** No início de cada rodada, um jogador é secretamente sorteado para ser o **Gaiato** e uma palavra secreta é escolhida a partir de um tema definido.
-2.  **A Palavra Secreta:**
-    * Todos os jogadores, exceto o Gaiato, sabem qual é a palavra secreta.
-    * O Gaiato não sabe a palavra, mas tem acesso ao tema e à lista de palavras possíveis, assim como todos os outros jogadores.
-3.  **Dando as Dicas:** Em ordem, cada jogador deve dar uma dica de **uma única palavra** relacionada à palavra secreta.
-    * As dicas devem ser boas o suficiente para provar que você sabe a palavra, mas não tão óbvias a ponto de o Gaiato descobrir qual é.
-    * O Gaiato também deve dar uma dica, tentando enganar os outros e se passar por um jogador que sabe a palavra.
-4.  **A Votação:** Após todos darem suas dicas, uma rodada de discussão é aberta e, em seguida, todos os jogadores votam em quem eles acreditam ser o Gaiato.
-5.  **O Fim da Rodada:**
-    * Se o jogador mais votado for o Gaiato, os outros jogadores vencem!
-    * Se o jogador mais votado não for o Gaiato, o Gaiato vence a rodada.
+📖 As regras completas do jogo estão em **[RULES.md](RULES.md)**.
 
-## 🚀 Como Executar o Projeto (Exemplo)
+## 🛠️ Tecnologias
 
-Para rodar o projeto em seu ambiente local, siga os passos abaixo:
+| Camada | Tecnologia |
+|---|---|
+| Backend | [Ruby on Rails 8](https://rubyonrails.org/) |
+| Frontend reativo | [Hotwire](https://hotwired.dev/) — Turbo + Stimulus |
+| App nativo (iOS/Android) | [Hotwire Native](https://native.hotwired.dev/) |
+| Instalável no celular | PWA (manifest + service worker) |
+| Banco de dados | SQLite |
+| Filas de background | [Solid Queue](https://github.com/rails/solid_queue) |
+| Cache | [Solid Cache](https://github.com/rails/solid_cache) |
+| WebSockets (Action Cable) | [Solid Cable](https://github.com/rails/solid_cable) |
+| Assets JS | Importmap (sem Node/Webpack) |
+| CSS | Tailwind CSS v4 |
+| Deploy | [Kamal](https://kamal-deploy.org/) |
 
-1.  **Clone o repositório:**
-    ```bash
-    git clone [https://github.com/RomuloOliveira94/o-gaiato.git](https://github.com/RomuloOliveira94/o-gaiato.git)
-    cd o-gaiato
-    ```
+Sem Redis, sem Postgres, sem `node_modules` — tudo roda com SQLite e importmap, o que mantém o setup local extremamente simples.
 
-2.  **Instale as dependências:**
-    ```bash
-    bundle install
-    ```
+## 🚀 Como rodar localmente
 
-3.  **Configure o banco de dados:**
-    ```bash
-    rails db:create
-    rails db:migrate
-    ```
+### Pré-requisitos
 
-4.  **Inicie o servidor:**
-    ```bash
-    rails server
-    ```
+- Ruby **3.3.0** (veja [`.ruby-version`](.ruby-version); recomendado usar [rbenv](https://github.com/rbenv/rbenv) ou [asdf](https://asdf-vm.com/))
+- SQLite3
 
-5.  Abra seu navegador e acesse `http://localhost:3000`.
+### Setup
 
-## 🤝 Como Contribuir
+```bash
+git clone https://github.com/RomuloOliveira94/o-gaiato.git
+cd o-gaiato
+bin/setup
+```
 
-Contribuições são bem-vindas! Se você tiver ideias para novas funcionalidades, melhorias ou correções de bugs, sinta-se à vontade para abrir uma *issue* ou enviar um *pull request*.
+O `bin/setup` já instala as gems, prepara o banco de dados (`db:prepare`, que cria/migra e roda o `db:seed` com as categorias e palavras) e sobe o servidor local. Se quiser só preparar o ambiente sem subir o servidor:
 
-1.  Faça um *fork* do projeto.
-2.  Crie uma nova *branch* (`git checkout -b feature/sua-feature`).
-3.  Faça o *commit* das suas alterações (`git commit -m 'Adiciona nova feature'`).
-4.  Faça o *push* para a *branch* (`git push origin feature/sua-feature`).
-5.  Abra um *Pull Request*.
+```bash
+bin/setup --skip-server
+```
+
+### Rodando o servidor
+
+```bash
+bin/dev
+```
+
+Isso sobe, via [Foreman](https://github.com/ddollar/foreman) (`Procfile.dev`), o servidor Rails (`bin/rails server -p 3000`) e o watcher do Tailwind (`bin/rails tailwindcss:watch`) ao mesmo tempo. Acesse **http://localhost:3000**.
+
+### Banco de dados
+
+```bash
+bin/rails db:prepare   # cria/migra o banco se necessário
+bin/rails db:seed      # (re)carrega categorias e palavras em português
+```
+
+## 🤝 Como contribuir
+
+1. Faça um **fork** do repositório.
+2. Crie uma branch a partir da `main`: `git checkout -b minha-feature`.
+3. Faça suas alterações seguindo as convenções do projeto (veja `CLAUDE.md` para arquitetura e padrões).
+4. Antes de abrir o PR, rode as checagens que também rodam no CI (`.github/workflows/ci.yml`):
+
+   ```bash
+   bin/rubocop -f github     # lint (rubocop-rails-omakase)
+   bin/brakeman --no-pager   # análise estática de segurança
+   bin/importmap audit       # audita dependências JS pinadas
+   ```
+
+5. Abra um **Pull Request** descrevendo o que mudou e por quê.
+
+> ⚠️ Este projeto ainda não tem uma suíte de testes configurada — se sua contribuição precisar de testes, converse antes no PR sobre a melhor forma de configurá-los.
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes. (Você precisará criar este arquivo se quiser adicionar uma licença).
+Distribuído sob a licença **MIT**. Veja [`LICENSE`](LICENSE) para mais detalhes.

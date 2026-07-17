@@ -1,0 +1,44 @@
+<div id="rules-widget" data-turbo-permanent data-controller="rules-modal">
+  <button
+    type="button"
+    data-action="click->rules-modal#open"
+    class="rules-toggle"
+    aria-haspopup="dialog"
+    aria-controls="rules-dialog"
+    aria-label="Ver regras do jogo"
+    title="Regras do jogo"
+  >
+    📖
+  </button>
+
+  <dialog
+    id="rules-dialog"
+    data-rules-modal-target="dialog"
+    data-action="click->rules-modal#closeOnBackdropClick"
+    aria-labelledby="rules-dialog-title"
+    class="rounded-xl shadow-2xl p-0 m-auto w-[90vw] max-w-md backdrop:bg-black/60 backdrop:backdrop-blur-sm"
+  >
+    <div class="bg-primary flex items-center justify-between px-5 py-4 rounded-t-xl">
+      <h2 id="rules-dialog-title" class="text-xl font-bold text-gray-800">📖 Regras rápidas</h2>
+      <button
+        type="button"
+        data-action="click->rules-modal#close"
+        class="text-gray-800 text-2xl leading-none hover:opacity-70 transition-opacity"
+        aria-label="Fechar"
+      >
+        &times;
+      </button>
+    </div>
+    <div class="bg-white p-6 rounded-b-xl">
+      <ul class="list-disc list-inside space-y-3 text-lg text-left">
+        <li><strong>Objetivo:</strong> descubram quem é O Gaiato antes da votação (ou, se for você, disfarce-se bem!).</li>
+        <li><strong>O Gaiato</strong> vê o tema e todas as palavras, mas não sabe qual é a secreta.</li>
+        <li>Os demais jogadores veem a palavra secreta.</li>
+        <li>Cada um dá, na sua vez, uma <strong>dica falada</strong> sobre a palavra (não é digitada no app).</li>
+        <li>Depois das dicas, todos <strong>votam</strong> em quem acham que é O Gaiato.</li>
+        <li>Jogadores vencem se acertarem O Gaiato; ele vence se escapar da votação ou se der empate.</li>
+      </ul>
+      <p class="text-sm text-gray-500 mt-4">Regras completas em <code>RULES.md</code>.</p>
+    </div>
+  </dialog>
+</div>
